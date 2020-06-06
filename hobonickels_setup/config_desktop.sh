@@ -58,12 +58,12 @@ config_desktop () {
 		[Desktop Entry]
 		Name=${COIN_NAME} QT
 		Comment=Blockchain Wallet from ${COIN_NAME}
-		Exec=${COIN}-qt
+		Exec=${COIN_NAME}-qt
 		Icon=${COIN_MEDIA}${COIN_ICON}
 		Terminal=false
 		Type=Application
 		Categories=Blockchain;
-		Keywords=blockchain;wallet;${COIN};
+		Keywords=blockchain;wallet;${COIN};${COIN_NAME};
 	" > ${HOME}.local/share/applications/${COIN}-qt.desktop
 
 	#
@@ -71,9 +71,9 @@ config_desktop () {
 	$HOME_USER_COMMAND echo "
 		[Desktop Entry]
 		Type=Link
-		Name=BitCore QT
-		Icon=/home/bitcore/MEDIA/bitcore_icon.png
-		URL=/home/bitcore/.local/share/applications/bitcore-qt.desktop" > ${HOME}Desktop/${COIN}-qt.desktop
+		Name=${COIN_Name} QT
+		Icon=${COIN_MEDIA}${COIN_ICON}
+		URL=${HOME}.local/share/applications/${COIN}-qt.desktop" > ${HOME}Desktop/${COIN}-qt.desktop
 
 	#
 	# Set Desktop Wallpaper
