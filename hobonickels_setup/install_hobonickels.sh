@@ -22,6 +22,7 @@ COIN_HOME="${HOME}.${COIN_NAME}"
 INSTALL_DIR="${ROOT}PI_${COIN_NAME}/"
 COIN_INSTALL="${ROOT}${COIN_NAME}"
 BDB_PREFIX="/usr/local"
+COIN_CONFIG="${COIN_ROOT}/${COIN_NAME}.conf"
 
 # DB
 DB_VERSION="4.8.30"
@@ -54,8 +55,8 @@ CPU_CORE=$(cat /proc/cpuinfo | grep processor | wc -l)
 RPI_RAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
 
 # Commands
-COIN_D_COMMAND="${COIND} -daemon -conf=${COIN_ROOT}/${COIN_NAME}.conf -datadir=${COIN_ROOT} -walletdir=${COIN_ROOT}"
-COIN_CLI_COMMAND="${COIN_CLI} -conf=${COIN_ROOT}/${COIN_NAME}.conf -datadir=${COIN_ROOT}"
+COIN_D_COMMAND="${COIND} -daemon -conf=${COIN_CONFIG} -datadir=${COIN_ROOT} -walletdir=${COIN_ROOT}"
+COIN_CLI_COMMAND="${COIN_CLI} -conf=${COIN_CONFIG} -datadir=${COIN_ROOT}"
 
 
 start () {
@@ -288,7 +289,7 @@ make_coin () {
 		make -j2 && cp ${COIN_NAME}-qt /usr/local/bin
 	fi
 
-  strip /usr/local/bin/${COIN_NAME}-qt
+  	strip /usr/local/bin/${COIN_NAME}-qt
 
 	#
 	# make the wallet console (no gui)
@@ -304,7 +305,7 @@ make_coin () {
 		make -f makefile.unix USE_UPNP= -j2 && && cp ${COIN}d /usr/local/bin
 	fi
   
-  strip ${COIND}
+  	strip ${COIND}
    
 }
 
@@ -332,12 +333,12 @@ configure_coin_conf () {
 
 	#############
 	# NODE LIST #
-	#############" > ${COIN_ROOT}/${COIN}.conf
+	#############" > ${COIN_CONFIG}
 
 	COIN_NODES=$(curl -s $COIN_NODE | jq '.[] | .nodes[]' |  /bin/sed 's/"//g')
 
 		for addnode in $COIN_NODES; do
-		echo "	addnode=$addnode" >> ${COIN_ROOT}/${COIN_NAME}.conf
+		echo "	addnode=$addnode" >> ${COIN_CONFIG}
 		done
 
 
