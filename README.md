@@ -73,7 +73,7 @@ addnode=add a node from https://chainz.cryptoid.info/hbn/api.dws?q=nodes list
 - fail2ban is configured with 24 hours banntime. (https://www.fail2ban.org/wiki/index.php/Main_Page)
 - ufw service open ports is 22 (SSH), 3389 (RDP) and 7372 (HoboNickels). (https://help.ubuntu.com/community/UFW)
 ## Infos about HoboNickels
-[Homepage](http://www.hobonickels.info/) | [Source GitHub](https://github.com/Tranz5/HoboNickels) | [Hobomapinfo](https://hobomap.info/) [Blockchainexplorer](https://chainz.cryptoid.info/hbn/) | [Discord](https://discord.gg/JendXsA) | [bitcointalk.org](https://bitcointalk.org/index.php?topic=303749.0)
+[Homepage](http://www.hobonickels.info/) | [Source GitHub](https://github.com/Tranz5/HoboNickels) | [Hobomapinfo](https://hobomap.info/) | [Blockchainexplorer](https://chainz.cryptoid.info/hbn/) | [Discord](https://discord.gg/JendXsA) | [bitcointalk.org](https://bitcointalk.org/index.php?topic=303749.0)
 
 ## Screenshoot
 ![ScreenShot](https://raw.githubusercontent.com/SpecTurrican/PI_HoboNickels/hobonickels_setup/.png?raw=true)
