@@ -257,11 +257,21 @@ make_db () {
 	cd ${ROOT}/db-${DB_VERSION}.NC/build_unix/
 	../dist/configure --prefix=$BDB_PREFIX --enable-cxx
 	if [ "$CPU_CORE" = "4" ]; then
-		make -j3 && make install
+		make -j3
+		sleep 30
+		make install
+		sleep 1
 	else
-		make && make install
+		make
+		sleep 5
+		make install
+		sleep 1
 	fi
 
+	echo 'LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:/usr/local/lib"' >> /etc/environment
+	echo "/usr/local/lib" >> /etc/ld.so.conf.d/bitcoind.conf
+	/sbin/ldconfig
+	sleep 1
 
 }
 
@@ -276,20 +286,27 @@ make_coin () {
 
 	sed -i 's/QMAKE_CXXFLAGS += -msse2/QMAKE_CXXFLAGS +=/' ${COIN_INSTALL}/${COIN_NAME}-qt.pro
 	sed -i 's/QMAKE_CFLAGS += -msse2/QMAKE_CFLAGS +=/' ${COIN_INSTALL}/${COIN_NAME}-qt.pro
+	sleep 1
 
 	cd $COIN_INSTALL
 	qmake "USE_UPNP=-" "USE_QRCODE=1" "USE_DBUS=1"
+	sleep 3
 	#
 	# Set for RPI4 4GB/8GB Version 
 	if [ "$RPI_RAM" -gt "3072" ]; then
-		make -j3 && cp ${COIN_NAME}-qt /usr/local/bin
+		make -j3
+		sleep 30
+		cp ${COIN_NAME}-qt /usr/local/bin
 	else
 	#
 	# Set for RPI4 2GB Version
-		make -j2 && cp ${COIN_NAME}-qt /usr/local/bin
+		make -j2
+		sleep 30
+		cp ${COIN_NAME}-qt /usr/local/bin
 	fi
 
-  	strip /usr/local/bin/${COIN_NAME}-qt
+	/usr/bin/strip /usr/local/bin/${COIN_NAME}-qt
+	/bin/chmod +x /usr/local/bin/${COIN_NAME}-qt
 
 	#
 	# make the wallet console (no gui)
@@ -298,15 +315,21 @@ make_coin () {
 	#
 	# Set for RPI4 4GB Version 
 	if [ "$RPI_RAM" -gt "3072" ]; then
-		make -f makefile.unix USE_UPNP= -j3 && cp ${COIN}d /usr/local/bin
+		make -f makefile.unix USE_UPNP= -j3
+		sleep 30
+		cp ${COIN}d /usr/local/bin
 	else
 	#
 	# Set for RPI4 2GB Version
-		make -f makefile.unix USE_UPNP= -j2 && cp ${COIN}d /usr/local/bin
+		make -f makefile.unix USE_UPNP= -j2
+		sleep 30
+		cp ${COIN}d /usr/local/bin
 	fi
-  
-  	strip ${COIND}
-   
+
+	/usr/bin/strip ${COIND}
+	/bin/chmod +x ${COIND}
+
+
 }
 
 
@@ -463,10 +486,10 @@ checkrunning () {
 	echo " ... waiting of ${COIN}.service ... please wait!..."
 	sleep 5
 	while ! ${COIN_CLI_COMMAND} getinfo >/dev/null 2>&1; do
-		sleep 5
+		sleep 10
 		error=$(${COIN_CLI_COMMAND} getinfo 2>&1 | cut -d: -f4 | tr -d "}")
-		echo " ... ${COIN}.service is on : $error"
-		sleep 2
+		echo " ... ${COIN}.service is on : loading pls wait! ... $error"
+		sleep 5
 	done
 
 	echo "${COIN}.service is running !"
@@ -495,12 +518,12 @@ watch_synch () {
 	then
 		echo "  ... This may take a long time please wait!..."
 		echo "    Block is now: $get_blockhigh / $set_blockhigh"
-		sleep 10
+		sleep 30
 	else
 		echo "      Complete!..."
 		echo "    Block is now: $get_blockhigh / $set_blockhigh"
 		echo " "
-		sleep 30
+		sleep 60
 		break
 	fi
 	done
@@ -541,7 +564,7 @@ finish () {
 
 	#
 	# Set Permissions
-	/bin/chown -R -f ${COIN}:${ROOT} ${HOME}
+	/bin/chown -R -f ${COIN}:root ${HOME}
 	/bin/chmod 770 ${HOME} -R
 
 	#
@@ -588,16 +611,12 @@ finish () {
 
 	cat ${HOME}info.txt
 
-	echo "reboot in 60 sec..."
+	echo "reboot in 60 sec for the last step ..."
 
 	#
 	# Prepare the next script
 	/usr/bin/crontab -u root -r
 	/usr/bin/crontab -u root -l | { cat; echo "@reboot		${SCRIPT_DIR}${SCRIPT_NAME_NEXT} >${LOG_DIR}${LOG_FILE_NEXT} 2>&1"; } | crontab -
-
-	sleep 60s
-
-	/sbin/reboot
 
 
 }
@@ -645,3 +664,6 @@ else
 	fi
 
 fi
+
+sleep 60
+/sbin/reboot

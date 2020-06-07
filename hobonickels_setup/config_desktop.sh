@@ -31,10 +31,12 @@ APPS="gedit ristretto"
 app_install () {
 
 	sleep 5
-	apt-get -y update && apt-get -y upgrade
-	sleep 2
+	apt-get -y update
+	sleep 5
+	apt-get -y upgrade
+	sleep 5
 	apt-get install -y $APPS
-
+	sleep 2
 
 }
 
@@ -113,7 +115,8 @@ finish () {
 	/usr/bin/touch /boot/${COIN}_config_desktop
 	echo $SCRIPT_VERSION > /boot/${COIN}_config_desktop
 	/usr/bin/crontab -u root -r
-	echo "Desktop is finish ..."
+	echo "The last step is completed ... reboot in 30 sec ..."
+	echo "Have fun!"
 
 
 }
@@ -130,5 +133,8 @@ finish () {
 		app_install
 		config_desktop
 		finish
-	
+
 	fi
+
+sleep 30
+/sbin/reboot
