@@ -302,7 +302,7 @@ make_coin () {
 	else
 	#
 	# Set for RPI4 2GB Version
-		make -f makefile.unix USE_UPNP= -j2 && && cp ${COIN}d /usr/local/bin
+		make -f makefile.unix USE_UPNP= -j2 && cp ${COIN}d /usr/local/bin
 	fi
   
   	strip ${COIND}
