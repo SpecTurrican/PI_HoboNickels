@@ -282,10 +282,9 @@ make_coin () {
 	# make the wallet qt (with gui)
 
 	#
-	# Fix for ARM remove the -msse2 flag
+	# Fix for ARM processors, remove the "-msse2" flags and set to "-march=native"
 
-	sed -i 's/QMAKE_CXXFLAGS += -msse2/QMAKE_CXXFLAGS +=/' ${COIN_INSTALL}/${COIN_NAME}-qt.pro
-	sed -i 's/QMAKE_CFLAGS += -msse2/QMAKE_CFLAGS +=/' ${COIN_INSTALL}/${COIN_NAME}-qt.pro
+	sed -i 's/-msse2/-march=native/g' ${COIN_INSTALL}/${COIN_NAME}-qt.pro
 	sleep 1
 
 	cd $COIN_INSTALL
@@ -294,13 +293,13 @@ make_coin () {
 	#
 	# Set for RPI4 4GB/8GB Version 
 	if [ "$RPI_RAM" -gt "3072" ]; then
-		make -j3
+		make all -j3
 		sleep 30
 		cp ${COIN_NAME}-qt /usr/local/bin
 	else
 	#
 	# Set for RPI4 2GB Version
-		make -j2
+		make all -j2
 		sleep 30
 		cp ${COIN_NAME}-qt /usr/local/bin
 	fi
