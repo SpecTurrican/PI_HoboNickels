@@ -290,20 +290,9 @@ make_coin () {
 	cd $COIN_INSTALL
 	qmake "USE_UPNP=-" "USE_QRCODE=1" "USE_DBUS=1"
 	sleep 3
-	#
-	# Set for RPI4 4GB/8GB Version 
-	if [ "$RPI_RAM" -gt "3072" ]; then
-		make all -j3
-		sleep 30
-		cp ${COIN_NAME}-qt /usr/local/bin
-	else
-	#
-	# Set for RPI4 2GB Version
-		make all -j2
-		sleep 30
-		cp ${COIN_NAME}-qt /usr/local/bin
-	fi
-
+	make all -j3
+	sleep 30
+	cp ${COIN_NAME}-qt /usr/local/bin
 	/usr/bin/strip /usr/local/bin/${COIN_NAME}-qt
 	/bin/chmod +x /usr/local/bin/${COIN_NAME}-qt
 
