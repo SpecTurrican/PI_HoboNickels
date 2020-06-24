@@ -288,9 +288,9 @@ make_coin () {
 	sleep 1
 
 	cd $COIN_INSTALL
-	qmake "USE_UPNP=-" "USE_QRCODE=1" "USE_DBUS=1"
+	qmake "USE_UPNP=-" "USE_QRCODE=1" "USE_DBUS=1" "USE_LEVELDB=-"
 	sleep 3
-	make all -j3
+	make all
 	sleep 30
 	cp ${COIN_NAME}-qt /usr/local/bin
 	/usr/bin/strip /usr/local/bin/${COIN_NAME}-qt
