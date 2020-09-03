@@ -206,7 +206,8 @@ prepair_system () {
 	tar -xzvf $DB_FILE && rm $DB_FILE
 	[ ! -d "$COIN_ROOT" ] && mkdir $COIN_ROOT
 	wget $COIN_BLOCKCHAIN
-	unzip ${COIN_BLOCKCHAIN_VERSION}.zip -d $COIN_ROOT && rm ${COIN_BLOCKCHAIN_VERSION}.zip
+	unzip ${COIN_BLOCKCHAIN_VERSION}.zip
+	mv HoboNickels-Snapshot/ $COIN_ROOT && rm ${COIN_BLOCKCHAIN_VERSION}.zip
 	chown -R root:root ${COIN_ROOT}
 
 
