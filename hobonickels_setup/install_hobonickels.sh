@@ -202,10 +202,10 @@ prepair_system () {
 	apt-get autoremove -y
 	cd ${ROOT}
 	git clone $COIN_DOWNLOAD $COIN_INSTALL
-	wget $DB_DOWNLOAD
+	wget -nv $DB_DOWNLOAD
 	tar -xzvf $DB_FILE && rm $DB_FILE
 	[ ! -d "$COIN_ROOT" ] && mkdir $COIN_ROOT
-	wget $COIN_BLOCKCHAIN
+	wget -nv $COIN_BLOCKCHAIN
 	unzip ${COIN_BLOCKCHAIN_VERSION}.zip
 	mv HoboNickels-Snapshot/ $COIN_ROOT && rm ${COIN_BLOCKCHAIN_VERSION}.zip
 	chown -R root:root ${COIN_ROOT}
@@ -289,7 +289,7 @@ make_coin () {
 	sleep 1
 
 	cd $COIN_INSTALL
-	qmake "USE_UPNP=-" "USE_QRCODE=1" "USE_DBUS=1" "USE_LEVELDB=-"
+	qmake "USE_UPNP=-" "USE_QRCODE=1" "USE_DBUS=1"
 	sleep 3
 	make all
 	sleep 30
