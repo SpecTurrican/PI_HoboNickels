@@ -204,7 +204,6 @@ prepair_system () {
 	git clone $COIN_DOWNLOAD $COIN_INSTALL
 	wget -nv $DB_DOWNLOAD
 	tar -xzvf $DB_FILE && rm $DB_FILE
-	[ ! -d "$COIN_ROOT" ] && mkdir $COIN_ROOT
 	wget -nv $COIN_BLOCKCHAIN
 	unzip ${COIN_BLOCKCHAIN_VERSION}.zip
 	mv HoboNickels-Snapshot/ $COIN_ROOT && rm ${COIN_BLOCKCHAIN_VERSION}.zip
