@@ -3,7 +3,7 @@
 
 Needs:
 
-+ ISO Raspbian Lite (https://www.raspberrypi.org/downloads/raspbian/)
++ ISO Raspbian Lite (https://www.raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit)
 + 16GB SD-Card
 + A Raspberry Pi 4 (with minimum 4GB Ram)
 + Login as ROOT (start Raspberry Pi and login as 'pi' user... password is 'raspberry'... 'sudo su root')
